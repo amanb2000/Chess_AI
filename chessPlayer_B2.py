@@ -48,6 +48,7 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 			if(player_at_position(num_from_coord([row-1, col-1]), board) == 10):
 				ret_list += [num_from_coord([row-1, col-1])]
 
+		return ret_list
 
 	# Case for Knight: Preliminary tests are positive.
 	if(piece_num % 10 == 1):
@@ -75,7 +76,7 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 			if(player_at_position(knight_nums[i], board) == player):
 				knight_nums.pop(i)
 				i -= 1
-			print(knight_nums)
+			# print(knight_nums)
 			i += 1
 
 
@@ -106,19 +107,93 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 				break
 
 		# Now checking if we're killing one of our own pieces
-		i = 0
-		while(i < len(rook_nums)):
-			if player_at_position(rook_nums[i], board) == player:
-				rook_nums.pop(i)
-			i += 1
+		# i = 0
+		# while(i < len(rook_nums)):
+		# 	if player_at_position(rook_nums[i], board) == player:
+		# 		rook_nums.pop(i)
+		# 		i -= 1
+		# 	i += 1
+
+		rook_nums = filter_moves(rook_nums, board, player)
 
 		return rook_nums
 
-	if piece % 10 == 2: # Bishop case
+	# Passed initial Tests
+	if piece_num % 10 == 2: # Bishop case
 		# Part 1: Checking to the right
 		bish_nums = []
+
+		for i in range(1,8,1):
+			bish_nums += [num_from_coord([row+i, col+i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
 		for i in range(1, 8, 1):
-			rook_nums += [num_from_coord([row+i, col+i])]
+			bish_nums += [num_from_coord([row-i, col+i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+		for i in range(1, 8, 1):
+			bish_nums += [num_from_coord([row+i, col-i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+		for i in range(1, 8, 1):
+			bish_nums += [num_from_coord([row-i, col-i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+
+
+		# Now checking if we're killing one of our own pieces or are out of bounds
+		# i = 0
+		# while(i < len(bish_nums)):
+		# 	if player_at_position(bish_nums[i], board) == player:
+		# 		bish_nums.pop(i)
+		# 		i -= 1
+		# 	i += 1
+		bish_nums = filter_moves(bish_nums, board, player)
+
+		return bish_nums
+
+	if piece_num % 10 == 4: # Queen case
+		# Part 1: Getting Bishop Case
+		bish_nums = []
+
+		for i in range(1,8,1):
+			bish_nums += [num_from_coord([row+i, col+i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+		for i in range(1, 8, 1):
+			bish_nums += [num_from_coord([row-i, col+i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+		for i in range(1, 8, 1):
+			bish_nums += [num_from_coord([row+i, col-i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+		for i in range(1, 8, 1):
+			bish_nums += [num_from_coord([row-i, col-i])]
+			if board[bish_nums[len(bish_nums)-1]] != 0:
+				break
+
+
+
+		# Now checking if we're killing one of our own pieces or are out of bounds
+		# i = 0
+		# while(i < len(bish_nums)):
+		# 	if player_at_position(bish_nums[i], board) == player:
+		# 		bish_nums.pop(i)
+		# 		i -= 1
+		# 	i += 1
+
+		# Part 1: Checking to the right
+		rook_nums = []
+		for i in range(col+1, 8, 1):
+			rook_nums += [num_from_coord([row, i])]
 			if board[num_from_coord([row, i])] != 0:
 				break
 
@@ -138,28 +213,79 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 				break
 
 		# Now checking if we're killing one of our own pieces
-		i = 0
-		while(i < len(rook_nums)):
-			if player_at_position(rook_nums[i], board) == player:
-				rook_nums.pop(i)
-			i += 1
+		# i = 0
+		# while(i < len(rook_nums)):
+		# 	if player_at_position(rook_nums[i], board) == player:
+		# 		rook_nums.pop(i)
+		# 		i -= 1
+		# 	i += 1
 
-		return rook_nums
+		queen_nums = rook_nums + bish_nums
 
+		queen_nums = filter_moves(queen_nums, board, player)
 
+		return queen_nums + queen_nums
 
+	if piece_num % 10 == 5: # King's case
+		king_nums = []
 
+		# Part 1: Getting Bishop Case
+		bish_nums = []
 
+		for i in range(1,8,1):
+			bish_nums += [num_from_coord([row+i, col+i])]
+			bish_nums += [num_from_coord([row-i, col+i])]
+			bish_nums += [num_from_coord([row+i, col-i])]
+			bish_nums += [num_from_coord([row-i, col-i])]
 
+			bish_nums += [num_from_coord([row+i, col])]
+			bish_nums += [num_from_coord([row-i, col])]
+			bish_nums += [num_from_coord([row, col-i])]
+			bish_nums += [num_from_coord([row, col+i])]
+			break
 
+		# Now checking if we're killing one of our own pieces
+		# i = 0
+		# while(i < len(bish_nums)):
+		# 	if player_at_position(bish_nums[i], board) == player or player_at_position(bish_nums[i], board) == -1:
+		# 		bish_nums.pop(i)
+		# 		i -= 1
+		# 	i += 1
 
+		bish_nums = filter_moves(bish_nums, board, player)
 
-	return ret_list;
+		return bish_nums
+
+	print("WOw we didn't find anything for this dudeee")
+	print(position)
 
 def IsPositionUnderThreat(board, position, player):
 	return
 
 # Helper Functions for Debugging Here
+
+def next_board(board, move):
+	board2 = []
+
+	for i in board:
+		board2 += i
+
+	board2[0] = 8
+
+
+
+	return 'a'
+
+def filter_moves(moves, board, player):
+	move2 = []
+	i = 0
+	while(i < len(moves)):
+		if not (player_at_position(moves[i], board) == player or player_at_position(moves[i], board) == -1):
+			move2 += [moves[i]]
+		i += 1
+
+
+	return move2
 
 def player_at_position(num, board): #10 if white, 20 if black, 0 if nothing, -1 if out of bounds
 	if(num < 0 or num >= len(board)):
@@ -281,6 +407,8 @@ def get_new_board():
 def print_num_board(board):
 	strOut = ""
 
+	print("========================")
+
 	color_dict = {
 		"green" : "32",
 		"red" : "31",
@@ -331,3 +459,5 @@ def print_num_board(board):
 		cnt += 1;
 		if(cnt % 8 == 0):
 			print("")
+
+	print("========================")
