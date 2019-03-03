@@ -17,12 +17,18 @@ def main():
     for i in white_pos:
         tree_next += [GetPieceLegalMoves(board, i)]
 
-    board_next = next_board(board, [1]) # move is of the form [position 1, position 2]
+    move_list = get_move_lists(white_pos, tree_next)
 
-    print("l")
+    board_next = []
+    a = next_board(board, move_list[0]) # move is of the form [position 1, position 2]
 
-    print_num_board(board)
+    for i in move_list:
+        board_next += [next_board(board, i)]
 
-    print(tree_next)
+    print("")
+
+    print_num_board(board_next[16])
+
+
 
 main()

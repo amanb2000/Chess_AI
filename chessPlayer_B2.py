@@ -256,25 +256,35 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 
 		return bish_nums
 
-	print("WOw we didn't find anything for this dudeee")
-	print(position)
+	print("Invalid: The number",position," is not a valid piece/space identifier")
 
 def IsPositionUnderThreat(board, position, player):
 	return
 
 # Helper Functions for Debugging Here
 
+def get_move_lists(cur_positions, nexts):
+	retVal = []
+
+	for i in range(len(cur_positions)):
+		for j in nexts[i]:
+			cur_position = cur_positions[i]
+			alternative = j
+			tmp = [cur_position, alternative]
+			retVal += [tmp]
+
+	return retVal
+
 def next_board(board, move):
 	board2 = []
 
 	for i in board:
-		board2 += i
+		board2 += [i];
 
-	board2[0] = 8
+	board2[move[1]] = board2[move[0]]
+	board2[move[0]] = 0
 
-
-
-	return 'a'
+	return board2
 
 def filter_moves(moves, board, player):
 	move2 = []
