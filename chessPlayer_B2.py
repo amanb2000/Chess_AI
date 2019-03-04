@@ -1,5 +1,25 @@
-# Core Functionality Functions from B2
+'''
+Main function for chess playing AI.
+Takes: board, player (defined previously)
+Returns: [status, move, candidateMoves, evalTree]
+	- status = true if function succeeded, false if not
+		- TODO: when would you want to say false?
+	- Move: 2-list w/starting index in board and end index for piece in board
+	- Candidate Moves = [ [[move1], rating1], [[move2], rating2] ]
+	- EvalTree = true if tree was used to determine next moves
+		- Level order traversal
 
+Strategy:
+	- Create an architecture for a tree of next board states.
+	- Create a method of evaluating the value of each move
+		- Make a method of determining 'score' of each board state
+	- Return stuff
+'''
+def chessPlayer(board, player):
+
+
+
+# Core Functionality Functions from B2
 def GetPlayerPositions(board, player):
 	retVal = []
 	for i in range(len(board)):
@@ -258,8 +278,23 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 
 	print("Invalid: The number",position," is not a valid piece/space identifier")
 
+# For this board, is this position under threat by the OPPONENT of the given player?
+# TODO!: Fix pawn issue (position is under threat by pawn moving forward one space)
 def IsPositionUnderThreat(board, position, player):
-	return
+	opponent = player + 10
+	if opponent == 30:
+		opponent = 10
+
+	oppo_positions = GetPlayerPositions(board, opponent)
+	oppo_control = []
+
+	for i in oppo_positions:
+		oppo_control += GetPieceLegalMoves(board, i)
+
+	if position in oppo_control:
+		return True
+
+	return False
 
 # Helper Functions for Debugging Here
 

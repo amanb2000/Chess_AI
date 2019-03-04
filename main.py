@@ -7,9 +7,7 @@ def main():
 
     board[31] = 15
     print_num_board(board)
-    # print(GetPieceLegalMoves(board, 57))
-    # print(GetPieceLegalMoves(board, 31))
-    # print(len(GetPieceLegalMoves(board, 31)))
+
     white_pos = (GetPlayerPositions(board, 10))
 
     tree_next = []
@@ -26,8 +24,6 @@ def main():
         board_next += [next_board(board, i)]
 
     print("")
-
-    print_num_board(board_next[16])
 
 
 
