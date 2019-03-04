@@ -1,3 +1,5 @@
+from chessPlayer_trees import *
+
 '''
 Main function for chess playing AI.
 Takes: board, player (defined previously)
@@ -11,13 +13,43 @@ Returns: [status, move, candidateMoves, evalTree]
 
 Strategy:
 	- Create an architecture for a tree of next board states.
+		1. Function to get a list of next possible boards based on a single board and player who's taking the turn
 	- Create a method of evaluating the value of each move
 		- Make a method of determining 'score' of each board state
+	- Classes to make:
 	- Return stuff
 '''
 def chessPlayer(board, player):
+	return
 
 
+
+# This function will return a float that tells us how good a board is
+	# for a given player (negative = good for white, positive = good for black)
+def eval_board(board):
+	cnt = 0
+	for i in board:
+		if i == 0:
+			continue
+
+		add_val = i % 10
+		if add_val == 5:
+			add_val = 200
+		elif add_val == 4:
+			add_val = 9
+		elif add_val == 3:
+			add_val = 5
+		elif add_val == 2 or add_val == 1:
+			add_val = 3
+		elif add_val == 0:
+			add_val = 1
+
+		if i // 10 == 1:
+			cnt -= add_val
+		else:
+			cnt += add_val
+
+	return float(cnt)/1.0
 
 # Core Functionality Functions from B2
 def GetPlayerPositions(board, player):
@@ -88,17 +120,17 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 			# if player at that num is the player, pick it out.
 			# yup.
 
-		i = 0
-		while i < len(knight_nums):
-			if(knight_nums[i] == -1):
-				knight_nums.pop(i)
-				i -= 1
-			if(player_at_position(knight_nums[i], board) == player):
-				knight_nums.pop(i)
-				i -= 1
-			# print(knight_nums)
-			i += 1
-
+		# i = 0
+		# while i < len(knight_nums):
+		# 	if(knight_nums[i] == -1):
+		# 		knight_nums.pop(i)
+		# 		i -= 1
+		# 	if(player_at_position(knight_nums[i], board) == player):
+		# 		knight_nums.pop(i)
+		# 		i -= 1
+		# 	# print(knight_nums)
+		# 	i += 1
+		knight_nums = filter_moves(knight_nums, board, player)
 
 		return knight_nums
 
