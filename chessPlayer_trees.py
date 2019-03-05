@@ -42,7 +42,7 @@ class BoardTreeNode:
             self.rate_children()
         print("Potential move ratings: ", self.move_ratings)
         if(self.cur_player == 20):
-            max_ind = (self.move_ratings).index(max(self.move_ratings))
+            max_ind = (self.move_ratings).index(min(self.move_ratings)) # CHANGED THIS FROM MAX TO MIN
         else:
             max_ind = (self.move_ratings).index(min(self.move_ratings))
         print("Taking move number ",max_ind)

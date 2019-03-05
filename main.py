@@ -55,8 +55,8 @@ def main():
 
 
     board = get_new_board()
-    me = 10
-    computer = 20
+    me = 20
+    computer = 10
 
     num_layers_down = 4
 
