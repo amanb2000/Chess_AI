@@ -1,4 +1,4 @@
-from chessPlayer_B2 import *
+from chessPlayer import *
 
 '''
 my_board is a 64-long array
@@ -23,6 +23,30 @@ class BoardTreeNode:
         if opp == 30:
             opp = 10
         self.cur_oppo = opp
+
+    def get_level_order(self):
+        # Implementing a QUEUE
+        C = []
+        C += [self]
+        retVal = []
+
+        while C:
+            board_to_process = C.pop(0)
+            retVal += [eval_board(board_to_process.board)]
+            C += board_to_process.children
+
+        return retVal
+
+    def get_best_move(self):
+        if not self.move_ratings:
+            self.rate_children()
+        print("Potential move ratings: ", self.move_ratings)
+        if(self.cur_player == 20):
+            max_ind = (self.move_ratings).index(max(self.move_ratings))
+        else:
+            max_ind = (self.move_ratings).index(min(self.move_ratings))
+        print("Taking move number ",max_ind)
+        return self.moves[max_ind]
 
     def add_child(self, child_board):
         self.children += child_board
@@ -81,7 +105,10 @@ class BoardTreeNode:
         for i in self.children:
             deepest_ratings = i.get_rating_list_deepests()
             # print(deepest_ratings)
-            children_rating_list += [float(sum(deepest_ratings))/float(len(deepest_ratings))]
+            if self.cur_player == 10: # TODO: Check this logic
+                children_rating_list += [max(deepest_ratings)]
+            else:
+                children_rating_list += [min(deepest_ratings)]
 
         self.move_ratings = children_rating_list
 

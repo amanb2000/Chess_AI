@@ -1,4 +1,5 @@
-from chessPlayer_trees import *
+# from chessPlayer_trees import *
+import chessPlayer_trees
 
 '''
 Main function for chess playing AI.
@@ -20,7 +21,13 @@ Strategy:
 	- Return stuff
 '''
 def chessPlayer(board, player):
-	return
+	root_node = chessPlayer_trees.BoardTreeNode(board, player)
+	num_layers_down = 4
+	for i in range(num_layers_down):
+		root_node.go_deeper()
+
+	comp_move = root_node.get_best_move()
+	return [True, comp_move, root_node.moves, root_node.get_level_order()]
 
 
 
@@ -34,7 +41,7 @@ def eval_board(board):
 
 		add_val = i % 10
 		if add_val == 5:
-			add_val = 200
+			add_val = 0 # KING VALUE SYSTEM
 		elif add_val == 4:
 			add_val = 9
 		elif add_val == 3:
@@ -66,7 +73,7 @@ def GetPieceLegalMoves(board, position): # position is the index of the piece on
 	ret_list = [] # value we will return that contains the list of next moves for that piece
 
 	if(piece_num == 0): # if the ID is 0, it is an empty space, so we return an empty list
-		print("INVALID: You can't move an empty space!")
+		# print("INVALID: You can't move an empty space!")
 		return ret_list
 
 	coords = coord_from_num(position) #These are the 0-indexed positions of each piece. top left is 0,0.

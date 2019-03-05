@@ -1,5 +1,5 @@
 from chessPlayer_trees import *
-
+import time
 def main():
     # board = get_new_board()
     #
@@ -37,17 +37,62 @@ def main():
     #
     # print("\n==============================================")
 
-    node_a = BoardTreeNode(get_new_board(), 10)
-    print(node_a.go_deeper())
-    node_a.go_deeper()
-    node_a.go_deeper()
-    node_a.go_deeper()
+    # node_a = BoardTreeNode(get_new_board(), 10)
     # node_a.go_deeper()
-    print_num_board(node_a.children[8].children[8].children[8].children[8].board)
+    # print(node_a.get_best_move())
+    # node_a.go_deeper()
+    # print(node_a.get_best_move())
+    # node_a.go_deeper()
+    # print(node_a.get_best_move())
+    # node_a.go_deeper()
+    # print(node_a.get_best_move())
+    # node_a.go_deeper()
+    # print_num_board(node_a.children[8].children[8].children[8].children[8].board)
+    #
+    # node_a.rate_children()
+    #
+    # print(node_a.move_ratings)
 
-    node_a.rate_children()
 
-    print(node_a.move_ratings)
+    board = get_new_board()
+    me = 10
+    computer = 20
+
+    num_layers_down = 4
+
+    while True:
+        print_num_board(board)
+        board = get_human_move(me, board)
+        print_num_board(board)
+
+
+        comp_ret = chessPlayer(board, computer)
+        comp_move = comp_ret[1]
+
+
+        board[comp_move[1]] = board[comp_move[0]]
+        board[comp_move[0]] = 0
+        # print(comp_ret[3])
+        print_num_board(board)
+        # root_node = BoardTreeNode(board, computer)
+        #
+        # for i in range(num_layers_down):
+        #     root_node.go_deeper()
+        #
+        # comp_move = root_node.get_best_move()
+        # board[comp_move[1]] = board[comp_move[0]]
+        # board[comp_move[0]] = 0
+        # print(chessPlayer(board, 10)[3])
+
+    node_a = BoardTreeNode(get_new_board(), 10)
+    node_a.generate_children()
+    node_a.get_best_move()
+
+    board = get_new_board()
+
+    # board[]
+
+    print(chessPlayer(board, 10)[3])
 
 
 
